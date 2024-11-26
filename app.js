@@ -17,8 +17,9 @@ let sending_questions = [
 
 let currentQuestions = sending_questions
 
-
 function renderQuestions(questions,index) {
+    questionContainer.innerHTML = ""
+
     let label = document.createElement("label")
     label.innerText = `${questions[index][0]}`
 
@@ -37,20 +38,38 @@ function renderQuestions(questions,index) {
     }
 }
 
-function goBack() {
-    if(currentIndex>0) {
+function showButtons() {
+    if (currentIndex>0) {
         backBtn.style.display = "flex"
-        currentIndex--
     } else {
         backBtn.style.display = "none"
     }
+
+    if (currentIndex<currentQuestions.length-1){
+        nextBtn.style.display = "flex"
+    } else {
+        nextBtn.style.display = "none"
+        // AQUI PODRIA HABER UN BOTON DE ENVIAR O PASAR A LA SIGUIENTE ETAPA.
+    }
+}
+
+function goBack() {
+    if(currentIndex>0) {
+        currentIndex--
+        console.log(`se resto: ${currentIndex}`)
+    } else {
+        console.log(`ya paso el limite: ${currentIndex}`)
+    }
+    renderQuestions(currentQuestions, currentIndex)
+    showButtons()
 }
 
 function goNext() {
     // validation
-    if(currentIndex<currentQuestions.length){
-        nextBtn.style.display = "flex"
+    if(currentIndex<currentQuestions.length+1){
         currentIndex++
+        console.log(`se sumo: ${currentIndex}`)
+        nextBtn.style.display = "flex"
 
         if(document.getElementsByClassName('input') != null){
             let i = 0
@@ -62,11 +81,19 @@ function goNext() {
                 }
                 i++
             }
+            console.log("alto ahi camarada")
         }
     } else {
-        backBtn.style.display = "none"
+        nextBtn.style.display = "none"
+        console.log(`ya paso el limite: ${currentIndex}`)
     }
+    renderQuestions(currentQuestions, currentIndex)
+    showButtons()
 }
 
 backBtn.addEventListener('click',goBack)
 nextBtn.addEventListener('click',goNext)
+window.addEventListener('load', () => {
+    renderQuestions(currentQuestions, currentIndex)
+    showButtons()
+})
