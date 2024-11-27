@@ -15,7 +15,15 @@ body {
 }
 
 .nav-btns {
+    display: flex;
     font-size: 2.4vw;
+    margin: 2vw;
+    justify-content: center;
+}
+
+.nav-btns * {
+    margin: 1vw;
+    padding: 1vw;
 }
 
 input {

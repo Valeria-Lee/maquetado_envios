@@ -5,8 +5,14 @@ const questionContainer = document.querySelector('#question')
 const questionNumber = document.querySelector('#q-number')
 const backBtn = document.querySelector('#back-btn')
 const nextBtn = document.querySelector('#next-btn')
+const navBtns = document.querySelector('.nav-btns')
 
 let currentIndex = 0
+
+const sendBtn = document.createElement('button')
+sendBtn.classList.add('btn', 'btn-success')
+sendBtn.textContent = "Enviar form"
+sendBtn.style.display = "flex"
 
 let sending_questions = [
     ["Ingresa las dimensiones de tu paquete:", [["number","Largo en cm (centímetros)"], ["number","Ancho en cm (centímetros)"]]],
@@ -34,6 +40,12 @@ function renderQuestions(questions,index) {
         let input = document.createElement("input")
         input.setAttribute("type",`${questions[index][1][i][0]}`)
         input.setAttribute("class","input")
+
+        let stored = localStorage.getItem(`q${index}-${i}`)
+        if(stored !== null && stored !== ""){
+            input.value = stored
+        }
+
         questionContainer.appendChild(input)
     }
 }
@@ -49,12 +61,13 @@ function showButtons() {
         nextBtn.style.display = "flex"
     } else {
         nextBtn.style.display = "none"
-        // AQUI PODRIA HABER UN BOTON DE ENVIAR O PASAR A LA SIGUIENTE ETAPA.
+        navBtns.appendChild(sendBtn)
+        sendBtn.addEventListener('click',nextStage())
     }
 }
 
 function goBack() {
-    if(currentIndex>0) {
+    if(currentIndex>1) {
         currentIndex--
         console.log(`se resto: ${currentIndex}`)
     } else {
@@ -65,30 +78,49 @@ function goBack() {
 }
 
 function goNext() {
-    // validation
-    if(currentIndex<currentQuestions.length+1){
-        currentIndex++
-        console.log(`se sumo: ${currentIndex}`)
-        nextBtn.style.display = "flex"
+    let display_alert = false
 
+    /*if(currentIndex+1==currentQuestions.length){
+        console.log("ya a la verga")
+        showButtons()
+        sendBtn.addEventListener('click',nextStage())
+    }*/
+
+    if(currentIndex<currentQuestions.length){
         if(document.getElementsByClassName('input') != null){
+            currentIndex++
+            console.log(`se sumo: ${currentIndex}`)
+            nextBtn.style.display = "flex"
+            
             let i = 0
-            let inputGroup = document.querySelectorAll('.class')
+            let inputGroup = document.querySelectorAll('.input')
 
-            while (i<0) {
-                if (inputGroup[i].value != null && inputGroup[i].value != '') {
-                    localStorage.setItem(`${currentIndex}`, inputGroup[i].value)
+            while (i < inputGroup.length) {
+                if (inputGroup[i].value != null && inputGroup[i].value != "") {
+                    // se le resta uno porque se le suma el siguiente al inicio.
+                    localStorage.setItem(`q${currentIndex-1}-${i}`, inputGroup[i].value)
+                } else {
+                    display_alert = true
+                    currentIndex--
+                    break
                 }
                 i++
             }
-            console.log("alto ahi camarada")
+            if (display_alert) {
+                alert("Introduce datos válidos.")
+            }
         }
     } else {
-        nextBtn.style.display = "none"
         console.log(`ya paso el limite: ${currentIndex}`)
     }
-    renderQuestions(currentQuestions, currentIndex)
-    showButtons()
+    if (!display_alert) {
+        renderQuestions(currentQuestions,currentIndex)
+        showButtons()
+    }
+}
+
+function nextStage() {
+    
 }
 
 backBtn.addEventListener('click',goBack)
