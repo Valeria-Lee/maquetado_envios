@@ -6,12 +6,12 @@ body {
     text-align: center;
     margin: 0;
     font-family: "Inconsolata", monospace;
+    font-size: 5.2vw;
 }
 
 #container {
     width: 100vw;
     height: 100vh;
-    font-size: 5.2vw;
 }
 
 .nav-btns {
