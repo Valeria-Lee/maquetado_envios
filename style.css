@@ -7,11 +7,15 @@ body {
     margin: 0;
     font-family: "Inconsolata", monospace;
     font-size: 5.2vw;
+    background: linear-gradient(135deg, #2c3e50, #4ca1af);
 }
 
 #container {
+    justify-content: center;
+    align-items: center;
     width: 100vw;
     height: 100vh;
+    color: gainsboro;
 }
 
 .nav-btns {
@@ -28,4 +32,6 @@ body {
 
 input {
     font-size: 5.2vw;
+    background-color: #bdc3c7;
+    border: 0;
 }

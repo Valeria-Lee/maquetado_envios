@@ -142,9 +142,9 @@ function succesfulOrder() {
     let msg = document.createElement('p')
     msg.innerHTML = `
         Resumen de tu envío:<br>
-        Remitente: ${senderName}<br>
-        Destinatario: ${recipientName}<br>
-        Opción de envío: ${shipmentChoice}<br>
+        Remitente: <strong>${senderName}</strong><br>
+        Destinatario: <strong>${recipientName}</strong><br>
+        Opción de envío: <strong>${shipmentChoice}</strong><br>
         Gracias de parte de Maquetado Envios. `
 
             questionContainer.appendChild(title)
